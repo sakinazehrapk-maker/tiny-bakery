@@ -9,6 +9,9 @@ let bakedCake = "";
 let chosenDecoration = "";
 let isBaking = false;
 let bakingComplete = false;
+let patience = 20;
+let patienceTimer;
+let customerWaiting = false;
 const cakes = [
     {
         name: "Vanilla Cake",
@@ -61,6 +64,10 @@ const bakingStatus =
     document.getElementById("baking-status");
 const serveButton =
     document.getElementById("serve-button");
+const patienceProgress =
+    document.getElementById("patience-progress");
+const patienceTime =
+    document.getElementById("patience-time");
 const decorationButtons =
     document.querySelectorAll(".decoration");
 function createOrder() {
@@ -86,6 +93,7 @@ function createOrder() {
         "🍰";
     gameMessage.textContent =
         "A new customer has arrived!";
+    startPatienceTimer();
 }
 bakeButton.addEventListener("click", function() {
     if (isBaking) {
@@ -163,6 +171,8 @@ serveButton.addEventListener("click", function() {
         correctCake &&
         correctDecoration
     ) {
+        clearInterval(patienceTimer);
+        customerWaiting = false;
         money += 20;
         score += 100;
         ordersCompleted++;
@@ -190,4 +200,42 @@ serveButton.addEventListener("click", function() {
         createOrder();
     }, 1000);
 });
+function startPatienceTimer() {
+    clearInterval(patienceTimer);
+    patience = 20;
+    customerWaiting = true;
+    patienceProgress.style.width =
+        "100%";
+    patienceTime.textContent =
+        patience + "s";
+    patienceTimer =
+        setInterval(function() {
+            patience--;
+            patienceTime.textContent =
+                patience + "s";
+            const percentage =
+                (patience / 20) * 100;
+            patienceProgress.style.width =
+                percentage + "%";
+            if (patience <= 0) {
+                clearInterval(
+                    patienceTimer
+                );
+                customerWaiting = false;
+                gameMessage.textContent =
+                    "The customer got tired of waiting and left!";
+                orderText.textContent =
+                    "No customer...";
+                bakeButton.disabled = true;
+                serveButton.disabled = true;
+                setTimeout(function() {
+                    bakeButton.disabled =
+                        false;
+                    serveButton.disabled =
+                        false;
+                    createOrder();
+                }, 2000);
+            }
+        }, 1000);
+}
 createOrder();

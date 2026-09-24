@@ -215,3 +215,28 @@ button {
     font-size: 14px;
     color: #927080;
 }
+.patience-area {
+    margin-top: 15px;
+}
+.patience-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: bold;
+    color: #c7437a;
+    margin-bottom: 6px;
+}
+.patience-bar {
+    width: 100%;
+    height: 14px;
+    background: #ffe1ed;
+    border-radius: 20px;
+    overflow: hidden;
+}
+#patience-progress {
+    width: 100%;
+    height: 100%;
+    background: #f487b2;
+    border-radius: 20px;
+    transition: width 0.3s;
+}
