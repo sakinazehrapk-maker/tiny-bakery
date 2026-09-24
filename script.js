@@ -5,6 +5,10 @@ let currentOrder = {
     cake: "",
     decoration: ""
 };
+let bakedCake = "";
+let chosenDecoration = "";
+let isBaking = false;
+let bakingComplete = false;
 const cakes = [
     {
         name: "Vanilla Cake",
@@ -51,6 +55,10 @@ const cakeDisplay =
     document.getElementById("cake-display");
 const bakeButton =
     document.getElementById("bake-button");
+const bakingProgress =
+    document.getElementById("baking-progress");
+const bakingStatus =
+    document.getElementById("baking-status");
 const serveButton =
     document.getElementById("serve-button");
 function createOrder() {
@@ -73,8 +81,36 @@ function createOrder() {
         "A new customer has arrived!";
 }
 bakeButton.addEventListener("click", function() {
+    if (isBaking) {
+        return;
+    }
+    isBaking = true;
+    bakingComplete = false;
+    bakedCake = currentOrder.cake;
+    let progress = 0;
+    bakingProgress.style.width = "0%";
+    bakingStatus.textContent =
+        "Baking...";
     gameMessage.textContent =
-        `Baking the ${currentOrder.cake}...`;
+        `Your ${bakedCake} is baking!`;
+    bakeButton.disabled = true;
+    const bakingTimer = setInterval(function() {
+        progress += 5;
+        bakingProgress.style.width =
+            progress + "%";
+        if (progress >= 100) {
+            clearInterval(bakingTimer);
+            isBaking = false;
+            bakingComplete = true;
+            bakingStatus.textContent =
+                "Cake is ready!";
+            gameMessage.textContent =
+                `Your ${bakedCake} is ready!`;
+            cakeDisplay.textContent =
+                "🎂";
+            bakeButton.disabled = false;
+        }
+    }, 100);
 });
 const decorationButtons =
     document.querySelectorAll(".decoration");
@@ -87,6 +123,11 @@ decorationButtons.forEach(function(button) {
     });
 });
 serveButton.addEventListener("click", function() {
+    if (!bakingComplete) {
+        gameMessage.textContent =
+            "Wait! The cake isn't ready yet!";
+        return;
+    }
     money += 10;
     score += 100;
     ordersCompleted++;
@@ -98,6 +139,13 @@ serveButton.addEventListener("click", function() {
         ordersCompleted;
     gameMessage.textContent =
         "Yay! Customer served!";
+    bakingComplete = false;
+    bakedCake = "";
+    chosenDecoration = "";
+    bakingProgress.style.width =
+        "0%";
+    bakingStatus.textContent =
+        "Oven is ready!";
     setTimeout(function() {
         createOrder();
     }, 1000);
