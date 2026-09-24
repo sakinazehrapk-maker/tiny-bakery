@@ -61,9 +61,15 @@ const bakingStatus =
     document.getElementById("baking-status");
 const serveButton =
     document.getElementById("serve-button");
+const decorationButtons =
+    document.querySelectorAll(".decoration");
 function createOrder() {
     const randomCake =
-        cakes[Math.floor(Math.random() * cakes.length)];
+        cakes[
+            Math.floor(
+                Math.random() * cakes.length
+            )
+        ];
     const randomDecoration =
         decorations[
             Math.floor(
@@ -76,7 +82,8 @@ function createOrder() {
         randomDecoration.name;
     orderText.textContent =
         `I'd like a ${randomCake.name} with ${randomDecoration.emoji} ${randomDecoration.name}, please!`;
-    cakeDisplay.textContent = "🍰";
+    cakeDisplay.textContent =
+        "🍰";
     gameMessage.textContent =
         "A new customer has arrived!";
 }
@@ -86,40 +93,59 @@ bakeButton.addEventListener("click", function() {
     }
     isBaking = true;
     bakingComplete = false;
-    bakedCake = currentOrder.cake;
+    bakedCake =
+        currentOrder.cake;
     let progress = 0;
-    bakingProgress.style.width = "0%";
+    bakingProgress.style.width =
+        "0%";
     bakingStatus.textContent =
         "Baking...";
     gameMessage.textContent =
         `Your ${bakedCake} is baking!`;
     bakeButton.disabled = true;
-    const bakingTimer = setInterval(function() {
-        progress += 5;
-        bakingProgress.style.width =
-            progress + "%";
-        if (progress >= 100) {
-            clearInterval(bakingTimer);
-            isBaking = false;
-            bakingComplete = true;
-            bakingStatus.textContent =
-                "Cake is ready!";
-            gameMessage.textContent =
-                `Your ${bakedCake} is ready!`;
-            cakeDisplay.textContent =
-                "🎂";
-            bakeButton.disabled = false;
-        }
-    }, 100);
+    const bakingTimer =
+        setInterval(function() {
+            progress += 5;
+            bakingProgress.style.width =
+                progress + "%";
+            if (progress >= 100) {
+                clearInterval(
+                    bakingTimer
+                );
+                isBaking = false;
+                bakingComplete = true;
+                bakingStatus.textContent =
+                    "Cake is ready!";
+                gameMessage.textContent =
+                    `Your ${bakedCake} is ready!`;
+                const finishedCake =
+                    cakes.find(function(cake) {
+                        return cake.name === bakedCake;
+                    });
+                cakeDisplay.textContent =
+                    finishedCake.emoji;
+                bakeButton.disabled =
+                    false;
+            }
+        }, 100);
 });
-const decorationButtons =
-    document.querySelectorAll(".decoration");
 decorationButtons.forEach(function(button) {
     button.addEventListener("click", function() {
+        if (!bakingComplete) {
+            gameMessage.textContent =
+                "Bake the cake first!";
+            return;
+        }
         const decoration =
             button.dataset.decoration;
+        chosenDecoration =
+            decoration;
+        const decorationEmoji =
+            button.textContent;
+        cakeDisplay.textContent =
+            `${cakeDisplay.textContent} ${decorationEmoji}`;
         gameMessage.textContent =
-            `You added ${decoration} to the cake!`;
+            `You added ${decorationEmoji} to the cake!`;
     });
 });
 serveButton.addEventListener("click", function() {
@@ -128,17 +154,31 @@ serveButton.addEventListener("click", function() {
             "Wait! The cake isn't ready yet!";
         return;
     }
-    money += 10;
-    score += 100;
-    ordersCompleted++;
-    moneyDisplay.textContent =
-        money;
-    scoreDisplay.textContent =
-        score;
-    ordersDisplay.textContent =
-        ordersCompleted;
-    gameMessage.textContent =
-        "Yay! Customer served!";
+    const correctCake =
+        bakedCake === currentOrder.cake;
+    const correctDecoration =
+        chosenDecoration ===
+        currentOrder.decoration;
+    if (
+        correctCake &&
+        correctDecoration
+    ) {
+        money += 20;
+        score += 100;
+        ordersCompleted++;
+        moneyDisplay.textContent =
+            money;
+        scoreDisplay.textContent =
+            score;
+        ordersDisplay.textContent =
+            ordersCompleted;
+        gameMessage.textContent =
+            "PERFECT ORDER! Customer is happy!";
+    }
+    else {
+        gameMessage.textContent =
+            "Oh no! That's not what the customer ordered!";
+    }
     bakingComplete = false;
     bakedCake = "";
     chosenDecoration = "";
