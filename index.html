@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Run a Tiny Bakery </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="game">
+        <header class="bakery-header">
+            <h1>Tiny Bakery</h1>
+            <p>Make cakes. Make customers happy.</p>
+        </header>
+        <section class="game-info">
+            <div class="info-card">
+                <span>💰</span>
+                <strong id="money">0</strong>
+                <small>Coins</small>
+            </div>
+            <div class="info-card">
+                <span>⭐</span>
+                <strong id="score">0</strong>
+                <small>Score</small>
+            </div>
+            <div class="info-card">
+                <span>👩‍🍳</span>
+                <strong id="orders">0</strong>
+                <small>Orders</small>
+            </div>
+        </section>
+        <section class="customer-area">
+            <div class="customer">
+                <div class="customer-avatar">
+                    👩
+                </div>
+                <div class="customer-speech">
+                    <h2>Welcome to my bakery!</h2>
+                    <p id="order-text">
+                        Waiting for an order...
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section class="bakery-counter">
+            <div class="station">
+                <h2>🎂 Cake</h2>
+                <div id="cake-display" class="cake-display">
+                    🍰
+                </div>
+            </div>
+            <div class="station">
+                <h2>Bakery</h2>
+                <button id="bake-button">
+                Bake Cake
+                </button>
+            </div>
+            <div class="station">
+                <h2>Decorations</h2>
+                <div class="decoration-buttons">
+                    <button class="decoration" data-decoration="🍓">
+                        🍓
+                    </button>
+                    <button class="decoration" data-decoration="🌸">
+                        🌸
+                    </button>
+                    <button class="decoration" data-decoration="✨">
+                        ✨
+                    </button>
+                    <button class="decoration" data-decoration="🍫">
+                        🍫
+                    </button>
+                </div>
+            </div>
+        </section>
+        <section class="serve-area">
+            <button id="serve-button">
+            Serve Customer
+            </button>
+        </section>
+        <section class="message-area">
+            <p id="game-message">
+                Welcome, baker!
+            </p>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
