@@ -1,6 +1,9 @@
 let money = 0;
 let score = 0;
 let ordersCompleted = 0;
+let betterOven = false;
+let fancyFrosting = false;
+let extraCounter = false;
 let currentOrder = {
     cake: "",
     decoration: ""
@@ -68,6 +71,12 @@ const patienceProgress =
     document.getElementById("patience-progress");
 const patienceTime =
     document.getElementById("patience-time");
+const ovenUpgrade =
+    document.getElementById("oven-upgrade");
+const frostingUpgrade =
+    document.getElementById("frosting-upgrade");
+const counterUpgrade =
+    document.getElementById("counter-upgrade");
 const decorationButtons =
     document.querySelectorAll(".decoration");
 function resetCakeDisplay() {
@@ -266,4 +275,62 @@ function startPatienceTimer() {
             }
         }, 1000);
 }
+ovenUpgrade.addEventListener("click", function() {
+    if (betterOven) {
+        return;
+    }
+    if (money < 50) {
+        gameMessage.textContent =
+            "You need 50 coins for the Better Oven!";
+        return;
+    }
+    money -= 50;
+    betterOven = true;
+    moneyDisplay.textContent =
+        money;
+    ovenUpgrade.textContent =
+        "Purchased";
+    ovenUpgrade.disabled = true;
+    gameMessage.textContent =
+        "Your oven is now faster!";
+});
+frostingUpgrade.addEventListener("click", function() {
+    if (fancyFrosting) {
+        return;
+    }
+    if (money < 100) {
+        gameMessage.textContent =
+            "You need 100 coins for Fancy Frosting!";
+        return;
+    }
+    money -= 100;
+    fancyFrosting = true;
+    moneyDisplay.textContent =
+        money;
+    frostingUpgrade.textContent =
+        "Purchased";
+    frostingUpgrade.disabled = true;
+    gameMessage.textContent =
+        "Fancy Frosting unlocked!";
+});
+counterUpgrade.addEventListener("click", function() {
+    if (extraCounter) {
+        return;
+    }
+    if (money < 75) {
+        gameMessage.textContent =
+            "You need 75 coins for the Extra Counter!";
+        return;
+    }
+    money -= 75;
+    extraCounter = true;
+    moneyDisplay.textContent =
+        money;
+    counterUpgrade.textContent =
+        "Purchased";
+
+    counterUpgrade.disabled = true;
+    gameMessage.textContent =
+        "Customers will now wait longer!";
+});
 createOrder();
