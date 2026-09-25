@@ -203,23 +203,34 @@ serveButton.addEventListener("click", function() {
         chosenDecoration ===
         currentOrder.decoration;
     if (
-        correctCake &&
-        correctDecoration
-    ) {
-        clearInterval(patienceTimer);
-        customerWaiting = false;
-        money += 20;
-        score += 100;
-        ordersCompleted++;
-        moneyDisplay.textContent =
-            money;
-        scoreDisplay.textContent =
-            score;
-        ordersDisplay.textContent =
-            ordersCompleted;
+    correctCake &&
+    correctDecoration
+) {
+    clearInterval(patienceTimer);
+    customerWaiting = false;
+    let earnedMoney = 20;
+    let earnedScore = 100;
+    if (fancyFrosting) {
+        earnedMoney += 10;
+    }
+    money += earnedMoney;
+    score += earnedScore;
+    ordersCompleted++;
+    moneyDisplay.textContent =
+        money;
+    scoreDisplay.textContent =
+        score;
+    ordersDisplay.textContent =
+        ordersCompleted;
+    if (fancyFrosting) {
+        gameMessage.textContent =
+            "PERFECT ORDER! Fancy Frosting bonus: +10 coins!";
+    }
+    else {
         gameMessage.textContent =
             "PERFECT ORDER! Customer is happy!";
     }
+}
     else {
         gameMessage.textContent =
             "Oh no! That's not what the customer ordered!";
