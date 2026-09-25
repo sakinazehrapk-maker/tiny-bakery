@@ -144,30 +144,28 @@ bakeButton.addEventListener("click", function() {
     gameMessage.textContent =
         `Your ${bakedCake} is baking!`;
     bakeButton.disabled = true;
-    const bakingTimer =
-        setInterval(function() {
-            progress += 5;
-            bakingProgress.style.width =
-                progress + "%";
-            if (progress >= 100) {
-                clearInterval(
-                    bakingTimer
-                );
-                isBaking = false;
-                bakingComplete = true;
-                bakingStatus.textContent =
-                    "Cake is ready!";
-                gameMessage.textContent =
-                    `Your ${bakedCake} is ready!`;
-                const finishedCake =
-                    cakes.find(function(cake) {
-                        return cake.name === bakedCake;
-                    });
-                setCakeFlavor(bakedCake);
-                bakeButton.disabled =
-                    false;
-            }
-        }, 100);
+    const bakingSpeed =
+    betterOven ? 50 : 100;
+const bakingTimer =
+    setInterval(function() {
+        progress += 5;
+        bakingProgress.style.width =
+            progress + "%";
+        if (progress >= 100) {
+            clearInterval(
+                bakingTimer
+            );
+            isBaking = false;
+            bakingComplete = true;
+            bakingStatus.textContent =
+                "Cake is ready!";
+            gameMessage.textContent =
+                `Your ${bakedCake} is ready!`;
+            setCakeFlavor(bakedCake);
+            bakeButton.disabled =
+                false;
+        }
+    }, bakingSpeed);
 });
 decorationButtons.forEach(function(button) {
     button.addEventListener("click", function() {
