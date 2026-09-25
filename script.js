@@ -222,6 +222,7 @@ serveButton.addEventListener("click", function() {
         score;
     ordersDisplay.textContent =
         ordersCompleted;
+    saveGame();
     if (fancyFrosting) {
         gameMessage.textContent =
             "PERFECT ORDER! Fancy Frosting bonus: +10 coins!";
@@ -297,6 +298,7 @@ ovenUpgrade.addEventListener("click", function() {
     }
     money -= 50;
     betterOven = true;
+    saveGame();
     moneyDisplay.textContent =
         money;
     ovenUpgrade.textContent =
@@ -316,6 +318,7 @@ frostingUpgrade.addEventListener("click", function() {
     }
     money -= 100;
     fancyFrosting = true;
+    saveGame();
     moneyDisplay.textContent =
         money;
     frostingUpgrade.textContent =
@@ -344,4 +347,64 @@ counterUpgrade.addEventListener("click", function() {
     gameMessage.textContent =
         "Customers will now wait longer!";
 });
+function saveGame() {
+    const gameData = {
+        money: money,
+        score: score,
+        ordersCompleted: ordersCompleted,
+        betterOven: betterOven,
+        fancyFrosting: fancyFrosting,
+        extraCounter: extraCounter
+    };
+    localStorage.setItem(
+        "tinyBakerySave",
+        JSON.stringify(gameData)
+    );
+}
+function loadGame() {
+    const savedGame =
+        localStorage.getItem("tinyBakerySave");
+    if (!savedGame) {
+        return;
+    }
+    const gameData =
+        JSON.parse(savedGame);
+    money =
+        gameData.money || 0;
+    score =
+        gameData.score || 0;
+    ordersCompleted =
+        gameData.ordersCompleted || 0;
+    betterOven =
+        gameData.betterOven || false;
+    fancyFrosting =
+        gameData.fancyFrosting || false;
+    extraCounter =
+        gameData.extraCounter || false;
+    moneyDisplay.textContent =
+        money;
+    scoreDisplay.textContent =
+        score;
+    ordersDisplay.textContent =
+        ordersCompleted;
+    if (betterOven) {
+        ovenUpgrade.textContent =
+            "Purchased";
+        ovenUpgrade.disabled =
+            true;
+    }
+    if (fancyFrosting) {
+        frostingUpgrade.textContent =
+            "Purchased";
+        frostingUpgrade.disabled =
+            true;
+    }
+    if (extraCounter) {
+        counterUpgrade.textContent =
+            "Purchased";
+        counterUpgrade.disabled =
+            true;
+    }
+}
+loadGame();
 createOrder();
