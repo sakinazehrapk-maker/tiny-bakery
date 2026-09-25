@@ -70,6 +70,31 @@ const patienceTime =
     document.getElementById("patience-time");
 const decorationButtons =
     document.querySelectorAll(".decoration");
+function resetCakeDisplay() {
+    const cake =
+        document.querySelector(".cake");
+    cake.className =
+        "cake";
+    const decoration =
+        document.querySelector(".cake-decoration");
+    decoration.textContent =
+        "✨";
+}
+function setCakeFlavor(cakeName) {
+    const cake =
+        document.querySelector(".cake");
+    cake.className =
+        "cake";
+    if (cakeName === "Vanilla Cake") {
+        cake.classList.add("vanilla");
+    }
+    else if (cakeName === "Chocolate Cake") {
+        cake.classList.add("chocolate");
+    }
+    else if (cakeName === "Strawberry Cake") {
+        cake.classList.add("strawberry");
+    }
+}
 function createOrder() {
     const randomCake =
         cakes[
@@ -89,10 +114,9 @@ function createOrder() {
         randomDecoration.name;
     orderText.textContent =
         `I'd like a ${randomCake.name} with ${randomDecoration.emoji} ${randomDecoration.name}, please!`;
-    cakeDisplay.textContent =
-        "🍰";
     gameMessage.textContent =
         "A new customer has arrived!";
+        resetCakeDisplay();
     startPatienceTimer();
 }
 bakeButton.addEventListener("click", function() {
@@ -130,8 +154,7 @@ bakeButton.addEventListener("click", function() {
                     cakes.find(function(cake) {
                         return cake.name === bakedCake;
                     });
-                cakeDisplay.textContent =
-                    finishedCake.emoji;
+                setCakeFlavor(bakedCake);
                 bakeButton.disabled =
                     false;
             }
@@ -144,16 +167,21 @@ decorationButtons.forEach(function(button) {
                 "Bake the cake first!";
             return;
         }
-        const decoration =
+        const decorationName =
             button.dataset.decoration;
         chosenDecoration =
-            decoration;
+            decorationName;
         const decorationEmoji =
             button.textContent;
-        cakeDisplay.textContent =
-            `${cakeDisplay.textContent} ${decorationEmoji}`;
+        const cake =
+            document.querySelector(".cake");
+        const decoration =
+            document.querySelector(".cake-decoration");
+        decoration.textContent =
+            decorationEmoji;
+        cake.classList.add("decorated");
         gameMessage.textContent =
-            `You added ${decorationEmoji} to the cake!`;
+            `You added ${decorationEmoji} to the cake! `;
     });
 });
 serveButton.addEventListener("click", function() {
