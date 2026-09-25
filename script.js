@@ -248,7 +248,9 @@ serveButton.addEventListener("click", function() {
 });
 function startPatienceTimer() {
     clearInterval(patienceTimer);
-    patience = 20;
+    const maxPatience =
+    extraCounter ? 30 : 20;
+    patience = maxPatience;
     customerWaiting = true;
     patienceProgress.style.width =
         "100%";
@@ -260,7 +262,7 @@ function startPatienceTimer() {
             patienceTime.textContent =
                 patience + "s";
             const percentage =
-                (patience / 20) * 100;
+            (patience / maxPatience) * 100;
             patienceProgress.style.width =
                 percentage + "%";
             if (patience <= 0) {
